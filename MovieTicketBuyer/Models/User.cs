@@ -8,6 +8,7 @@ namespace MovieTicketBuyer.Models
 {
     public class User
     {
+        // Properties of the User class
         public string Name { get; set; }
         public List<Ticket> Watchlist { get; set; }
         public List<Ticket> Purchased { get; set; }

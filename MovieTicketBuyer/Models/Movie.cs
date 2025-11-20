@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieTicketBuyer.Models
 {
+    // Movie class to represent a movie showing
     public class Movie
     {
         // Properties
