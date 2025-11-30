@@ -52,6 +52,18 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPurchase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPurchase.Designer.cs">
+      <DependentUpon>frmPurchase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmWatchlist.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWatchlist.Designer.cs">
+      <DependentUpon>frmWatchlist.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\MovieController.cs" />
     <Compile Include="Models\Theater.cs" />
@@ -61,6 +73,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPurchase.resx">
+      <DependentUpon>frmPurchase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWatchlist.resx">
+      <DependentUpon>frmWatchlist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
