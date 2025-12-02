@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using MovieTicketBuyer.Models;   // IMPORTANT to use elements from Models folder
 
 namespace MovieTicketBuyer
 {

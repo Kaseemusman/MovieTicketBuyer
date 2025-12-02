@@ -36,6 +36,8 @@ namespace MovieTicketBuyer
             lblShowTime.Text = selectedTicket.Movie.ShowTime;
             lblPrice.Text = "$" + selectedTicket.Movie.Price.ToString("0.00");
             lblSeat.Text = selectedTicket.SeatNumber;
+            lblRating.Text = selectedTicket.Movie.Rating;
+            lblDuration.Text = selectedTicket.Movie.Duration + " minutes";
         }
 
         // Confirm purchase Button Click Event
@@ -77,6 +79,16 @@ namespace MovieTicketBuyer
         }
 
         private void lblPrice_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }
