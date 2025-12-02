@@ -16,9 +16,9 @@ namespace MovieTicketBuyer.Models
             var amc = new Theater("AMC", "King of Prussia");
             var regal = new Theater("Regal", "Collegeville");
 
-            Movies.Add(new Movie("Dune 2", "Sci-Fi", 14.5, "9:30 PM", amc));
-            Movies.Add(new Movie("Inside Out 2", "Animation", 10.0, "6:00 PM", regal));
-            Movies.Add(new Movie("Joker 2", "Drama", 12.0, "8:00 PM", amc));
+            Movies.Add(new Movie("Dune 2", "Sci-Fi", 14.5, "9:30 PM", amc,142,"R","Dune"));
+            Movies.Add(new Movie("Inside Out 2", "Animation", 10.0, "6:00 PM", regal, 142, "R", "Dune"));
+            Movies.Add(new Movie("Joker 2", "Drama", 12.0, "8:00 PM", amc, 142, "R", "Dune"));
         }
 
         public List<Movie> FilterByTheater(string theater)
