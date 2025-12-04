@@ -64,11 +64,20 @@
     <Compile Include="frmWatchlist.Designer.cs">
       <DependentUpon>frmWatchlist.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\MovieController.cs" />
     <Compile Include="Models\Theater.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="MovieTicketBuyer1DataSet.cs">
+      <DependentUpon>MovieTicketBuyer1DataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="MovieTicketBuyer1DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmWatchlist.resx">
       <DependentUpon>frmWatchlist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
