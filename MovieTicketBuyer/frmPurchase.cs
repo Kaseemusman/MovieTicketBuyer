@@ -14,11 +14,11 @@ namespace MovieTicketBuyer
 {
     public partial class frmPurchase : Form
     {
-        // Private fields to hold selected ticket and current user
+       
         private Ticket selectedTicket;
         private User currentUser;
 
-        // Constructor with parameters
+        
         public frmPurchase(Ticket ticket, User user)
         {
             InitializeComponent();
@@ -26,10 +26,10 @@ namespace MovieTicketBuyer
             currentUser = user;
         }
 
-        // Form Load Event
+      
         private void frmPurchase_Load(object sender, EventArgs e)
         {
-            // Display movie details
+            // display
             lblMovie.Text = selectedTicket.Movie.Title;
             lblGenre.Text = selectedTicket.Movie.Genre;
             lblTheater.Text = selectedTicket.Movie.Theater.Name;
@@ -40,16 +40,16 @@ namespace MovieTicketBuyer
             lblDuration.Text = selectedTicket.Movie.Duration + " minutes";
         }
 
-        // Confirm purchase Button Click Event
+        
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            // Update ticket status
+         
             selectedTicket.Status = "Sold";
 
-            // Add to user's purchased list
+           
             currentUser.Purchased.Add(selectedTicket);
 
-            // Remove from watchlist if present
+            
             currentUser.Watchlist.Remove(selectedTicket);
 
             MessageBox.Show("Ticket purchased successfully!", "Success");
@@ -57,7 +57,7 @@ namespace MovieTicketBuyer
             this.Close();
         }
 
-        // Cancel Button Click Event
+       
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();

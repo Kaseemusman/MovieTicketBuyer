@@ -14,7 +14,7 @@ namespace MovieTicketBuyer
     public partial class FormMain : Form
     {
         private MovieController controller = new MovieController();
-        private User currentUser = new User("Kaseem");
+        private User currentUser;
 
         // DataSet and TableAdapters for database connection
         private MovieTicketBuyer1DataSet dataSet = new MovieTicketBuyer1DataSet();
@@ -23,13 +23,20 @@ namespace MovieTicketBuyer
         private MovieTicketBuyer1DataSetTableAdapters.TheatersTableAdapter theatersAdapter =
             new MovieTicketBuyer1DataSetTableAdapters.TheatersTableAdapter();
 
+        public FormMain(User user)
+        {
+            InitializeComponent();
+            currentUser = user;
+        }
         public FormMain()
         {
             InitializeComponent();
+            currentUser = new User("Guest");
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            
             try
             {
                 // Load data from Access database

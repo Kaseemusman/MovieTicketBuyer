@@ -33,22 +33,19 @@ namespace MovieTicketBuyer
             LoadWatchlistFromDatabase();
         }
 
-        /// <summary>
-        /// Load watchlist from database
-        /// </summary>
+       
         private void LoadWatchlistFromDatabase()
         {
             try
             {
-                // Clear current watchlist
+               
                 currentUser.Watchlist.Clear();
 
-                // Load data from database
                 ticketsAdapter.Fill(dataSet.Tickets);
                 moviesAdapter.Fill(dataSet.Movies);
                 theatersAdapter.Fill(dataSet.Theaters);
 
-                // Create theaters dictionary
+           
                 Dictionary<int, Theater> theaters = new Dictionary<int, Theater>();
                 foreach (var theaterRow in dataSet.Theaters)
                 {
@@ -59,7 +56,7 @@ namespace MovieTicketBuyer
                     theaters.Add(theaterRow.TheaterID, theater);
                 }
 
-                // Create movies dictionary
+               
                 Dictionary<int, Movie> movies = new Dictionary<int, Movie>();
                 foreach (var movieRow in dataSet.Movies)
                 {
@@ -79,7 +76,7 @@ namespace MovieTicketBuyer
                     }
                 }
 
-                // Load watchlist tickets
+               
                 var watchlistTickets = dataSet.Tickets.Where(t => t.TicketStatus == "Watchlist");
 
                 foreach (var ticketRow in watchlistTickets)
@@ -107,7 +104,7 @@ namespace MovieTicketBuyer
 
         private void RefreshWatchlistTable()
         {
-            // Prepare a simple list for display (anonymous objects)
+          
             var displayList = new List<object>();
 
             foreach (var ticket in currentUser.Watchlist)
@@ -129,7 +126,7 @@ namespace MovieTicketBuyer
             dgvWatchlist.DataSource = null;
             dgvWatchlist.DataSource = displayList;
 
-            // Update count label
+            
             lblCount.Text = $"Total Items: {currentUser.Watchlist.Count}";
         }
 
@@ -155,7 +152,7 @@ namespace MovieTicketBuyer
 
                 if (ticketToBuy != null)
                 {
-                    // Update in database
+                    
                     var ticketRow = dataSet.Tickets.FindByTicketID(ticketId);
                     if (ticketRow != null)
                     {
@@ -164,7 +161,7 @@ namespace MovieTicketBuyer
                         ticketsAdapter.Update(dataSet.Tickets);
                     }
 
-                    // Update in memory
+                   
                     ticketToBuy.Status = "Sold";
                     currentUser.Purchased.Add(ticketToBuy);
                     currentUser.Watchlist.Remove(ticketToBuy);
@@ -195,12 +192,12 @@ namespace MovieTicketBuyer
 
                 int ticketId = (int)dgvWatchlist.CurrentRow.Cells["TicketID"].Value;
 
-                // Find the real Ticket object
+                
                 Ticket ticketToRemove = currentUser.Watchlist.Find(t => t.Id == ticketId);
 
                 if (ticketToRemove != null)
                 {
-                    // Confirm removal
+                   
                     var result = MessageBox.Show(
                         $"Remove '{ticketToRemove.Movie.Title}' from watchlist?",
                         "Confirm Removal",
@@ -209,7 +206,7 @@ namespace MovieTicketBuyer
 
                     if (result == DialogResult.Yes)
                     {
-                        // Delete from database
+                        // delete
                         var ticketRow = dataSet.Tickets.FindByTicketID(ticketId);
                         if (ticketRow != null)
                         {
@@ -217,7 +214,7 @@ namespace MovieTicketBuyer
                             ticketsAdapter.Update(dataSet.Tickets);
                         }
 
-                        // Remove from memory
+                       
                         currentUser.Watchlist.Remove(ticketToRemove);
 
                         MessageBox.Show("Removed from watchlist.", "Success",
