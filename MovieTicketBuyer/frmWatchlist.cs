@@ -9,12 +9,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace MovieTicketBuyer
 {
     public partial class frmWatchlist : Form
     {
         private User currentUser;
+        private MovieTicketBuyer1DataSet dataSet = new MovieTicketBuyer1DataSet();
+        private MovieTicketBuyer1DataSetTableAdapters.TicketsTableAdapter ticketsAdapter =
+            new MovieTicketBuyer1DataSetTableAdapters.TicketsTableAdapter();
+        private MovieTicketBuyer1DataSetTableAdapters.MoviesTableAdapter moviesAdapter =
+            new MovieTicketBuyer1DataSetTableAdapters.MoviesTableAdapter();
+        private MovieTicketBuyer1DataSetTableAdapters.TheatersTableAdapter theatersAdapter =
+            new MovieTicketBuyer1DataSetTableAdapters.TheatersTableAdapter();
 
         public frmWatchlist(User user)
         {
@@ -24,12 +30,81 @@ namespace MovieTicketBuyer
 
         private void frmWatchlist_Load(object sender, EventArgs e)
         {
-            RefreshWatchlistTable();
+            LoadWatchlistFromDatabase();
+        }
+
+       
+        private void LoadWatchlistFromDatabase()
+        {
+            try
+            {
+               
+                currentUser.Watchlist.Clear();
+
+                ticketsAdapter.Fill(dataSet.Tickets);
+                moviesAdapter.Fill(dataSet.Movies);
+                theatersAdapter.Fill(dataSet.Theaters);
+
+           
+                Dictionary<int, Theater> theaters = new Dictionary<int, Theater>();
+                foreach (var theaterRow in dataSet.Theaters)
+                {
+                    Theater theater = new Theater(
+                        theaterRow.TheaterName,
+                        theaterRow.Address
+                    );
+                    theaters.Add(theaterRow.TheaterID, theater);
+                }
+
+               
+                Dictionary<int, Movie> movies = new Dictionary<int, Movie>();
+                foreach (var movieRow in dataSet.Movies)
+                {
+                    if (theaters.ContainsKey(movieRow.TheaterID))
+                    {
+                        Movie movie = new Movie(
+                            movieRow.Title,
+                            movieRow.Genre,
+                            (double)movieRow.Price,
+                            movieRow.ShowTime,
+                            theaters[movieRow.TheaterID],
+                            movieRow.IsDurationNull() ? 0 : movieRow.Duration,
+                            movieRow.IsRatingNull() ? "Not Rated" : movieRow.Rating,
+                            movieRow.IsDescriptionNull() ? "" : movieRow.Description
+                        );
+                        movies.Add(movieRow.MovieID, movie);
+                    }
+                }
+
+               
+                var watchlistTickets = dataSet.Tickets.Where(t => t.TicketStatus == "Watchlist");
+
+                foreach (var ticketRow in watchlistTickets)
+                {
+                    if (movies.ContainsKey(ticketRow.MovieID))
+                    {
+                        Ticket ticket = new Ticket(
+                            ticketRow.TicketID,
+                            movies[ticketRow.MovieID],
+                            ticketRow.SeatNumber
+                        );
+                        ticket.Status = ticketRow.TicketStatus;
+                        currentUser.Watchlist.Add(ticket);
+                    }
+                }
+
+                RefreshWatchlistTable();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading watchlist: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void RefreshWatchlistTable()
         {
-            // Prepare a simple list for display (anonymous objects)
+          
             var displayList = new List<object>();
 
             foreach (var ticket in currentUser.Watchlist)
@@ -39,9 +114,10 @@ namespace MovieTicketBuyer
                     TicketID = ticket.Id,
                     MovieTitle = ticket.Movie.Title,
                     Genre = ticket.Movie.Genre,
+                    Rating = ticket.Movie.Rating,
                     Theater = ticket.Movie.Theater.Name,
                     ShowTime = ticket.Movie.ShowTime,
-                    Price = ticket.Movie.Price,
+                    Price = ticket.Movie.Price.ToString("C"),
                     Seat = ticket.SeatNumber,
                     Status = ticket.Status
                 });
@@ -49,6 +125,9 @@ namespace MovieTicketBuyer
 
             dgvWatchlist.DataSource = null;
             dgvWatchlist.DataSource = displayList;
+
+            
+            lblCount.Text = $"Total Items: {currentUser.Watchlist.Count}";
         }
 
         private void btnClose_Click_1(object sender, EventArgs e)
@@ -58,50 +137,97 @@ namespace MovieTicketBuyer
 
         private void btnBuy_Click(object sender, EventArgs e)
         {
-            if (dgvWatchlist.CurrentRow != null)
+            try
             {
+                if (dgvWatchlist.CurrentRow == null)
+                {
+                    MessageBox.Show("Please select a ticket to buy.", "No Selection",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 int ticketId = (int)dgvWatchlist.CurrentRow.Cells["TicketID"].Value;
 
-                Ticket ticketToBuy = currentUser.Watchlist
-                    .Find(t => t.Id == ticketId);
+                Ticket ticketToBuy = currentUser.Watchlist.Find(t => t.Id == ticketId);
 
                 if (ticketToBuy != null)
                 {
+                    
+                    var ticketRow = dataSet.Tickets.FindByTicketID(ticketId);
+                    if (ticketRow != null)
+                    {
+                        ticketRow.TicketStatus = "Sold";
+                        ticketRow.PurchaseDate = DateTime.Now;
+                        ticketsAdapter.Update(dataSet.Tickets);
+                    }
+
+                   
                     ticketToBuy.Status = "Sold";
                     currentUser.Purchased.Add(ticketToBuy);
                     currentUser.Watchlist.Remove(ticketToBuy);
 
-                    MessageBox.Show("Ticket purchased successfully!");
-                }
+                    MessageBox.Show("Ticket purchased successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                RefreshWatchlistTable();
+                    RefreshWatchlistTable();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please select a ticket to buy.");
+                MessageBox.Show($"Error purchasing ticket: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (dgvWatchlist.CurrentRow != null)
+            try
             {
+                if (dgvWatchlist.CurrentRow == null)
+                {
+                    MessageBox.Show("Please select a ticket to remove.", "No Selection",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 int ticketId = (int)dgvWatchlist.CurrentRow.Cells["TicketID"].Value;
 
-                // Find the real Ticket object
-                Ticket ticketToRemove = currentUser.Watchlist
-                    .Find(t => t.Id == ticketId);
+                
+                Ticket ticketToRemove = currentUser.Watchlist.Find(t => t.Id == ticketId);
 
                 if (ticketToRemove != null)
                 {
-                    currentUser.Watchlist.Remove(ticketToRemove);
-                }
+                   
+                    var result = MessageBox.Show(
+                        $"Remove '{ticketToRemove.Movie.Title}' from watchlist?",
+                        "Confirm Removal",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
 
-                RefreshWatchlistTable();
+                    if (result == DialogResult.Yes)
+                    {
+                        // delete
+                        var ticketRow = dataSet.Tickets.FindByTicketID(ticketId);
+                        if (ticketRow != null)
+                        {
+                            ticketRow.Delete();
+                            ticketsAdapter.Update(dataSet.Tickets);
+                        }
+
+                       
+                        currentUser.Watchlist.Remove(ticketToRemove);
+
+                        MessageBox.Show("Removed from watchlist.", "Success",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        RefreshWatchlistTable();
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please select a ticket to remove.");
+                MessageBox.Show($"Error removing ticket: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

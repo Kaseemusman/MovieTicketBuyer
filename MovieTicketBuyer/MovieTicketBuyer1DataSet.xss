@@ -8,11 +8,11 @@
   <Shapes>
     <Shape ID="DesignTable:Movies" ZOrder="7" X="70" Y="70" Height="248" Width="186" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="197" />
     <Shape ID="DesignTable:Theaters" ZOrder="6" X="326" Y="70" Height="210" Width="194" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="159" />
-    <Shape ID="DesignTable:Tickets" ZOrder="1" X="326" Y="350" Height="191" Width="185" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="140" />
-    <Shape ID="DesignTable:Users" ZOrder="5" X="581" Y="350" Height="172" Width="176" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="121" />
+    <Shape ID="DesignTable:Tickets" ZOrder="2" X="326" Y="350" Height="191" Width="185" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="140" />
+    <Shape ID="DesignTable:Users" ZOrder="1" X="581" Y="350" Height="191" Width="176" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="24" OldDataTableHeight="24" SplitterPosition="140" />
   </Shapes>
   <Connectors>
-    <Connector ID="DesignRelation:TheatersMovies" ZOrder="4" LineWidth="11">
+    <Connector ID="DesignRelation:TheatersMovies" ZOrder="5" LineWidth="11">
       <RoutePoints>
         <Point>
           <X>326</X>
@@ -24,7 +24,7 @@
         </Point>
       </RoutePoints>
     </Connector>
-    <Connector ID="DesignRelation:MoviesTickets" ZOrder="3" LineWidth="11">
+    <Connector ID="DesignRelation:MoviesTickets" ZOrder="4" LineWidth="11">
       <RoutePoints>
         <Point>
           <X>239</X>
@@ -40,15 +40,15 @@
         </Point>
       </RoutePoints>
     </Connector>
-    <Connector ID="DesignRelation:UsersTickets" ZOrder="2" LineWidth="11">
+    <Connector ID="DesignRelation:UsersTickets" ZOrder="3" LineWidth="11">
       <RoutePoints>
         <Point>
           <X>581</X>
-          <Y>436</Y>
+          <Y>425</Y>
         </Point>
         <Point>
           <X>511</X>
-          <Y>436</Y>
+          <Y>425</Y>
         </Point>
       </RoutePoints>
     </Connector>

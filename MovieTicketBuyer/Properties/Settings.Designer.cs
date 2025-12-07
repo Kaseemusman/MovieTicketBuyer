@@ -26,8 +26,8 @@ namespace MovieTicketBuyer.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\\MovieTicketBuyer1.a" +
-            "ccdb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\\App_Data\\MovieTicke" +
+            "tBuyer1.accdb")]
         public string MovieTicketBuyer1ConnectionString {
             get {
                 return ((string)(this["MovieTicketBuyer1ConnectionString"]));

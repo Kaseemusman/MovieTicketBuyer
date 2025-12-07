@@ -16,7 +16,20 @@ namespace MovieTicketBuyer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+
+
+            Login loginForm = new Login();
+            if (loginForm.ShowDialog() == DialogResult.OK)
+            {
+                // Login successful - open main form with authenticated user
+                FormMain mainForm = new FormMain(loginForm.AuthenticatedUser);
+                Application.Run(mainForm);
+            }
+            else
+            {
+                // User cancelled login or closed the form
+                Application.Exit();
+            }
         }
-    }
+        }
 }
