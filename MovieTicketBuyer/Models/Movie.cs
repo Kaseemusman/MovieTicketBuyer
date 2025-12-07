@@ -19,7 +19,7 @@ namespace MovieTicketBuyer.Models
         public string Rating { get; set; }  
         public string Description { get; set; }
 
-        // Constructor to initialize a Movie object
+     
         public Movie(string title, string genre, double price, string showTime,
                      Theater theater, int duration, string rating, string description)
         {

@@ -8,16 +8,28 @@ namespace MovieTicketBuyer.Models
 {
     public class User
     {
-        // Properties of the User class
+   
         public string Name { get; set; }
+        public string Password { get; set; }
         public List<Ticket> Watchlist { get; set; }
         public List<Ticket> Purchased { get; set; }
-
         public User(string name)
         {
             Name = name;
+            Password = "";
             Watchlist = new List<Ticket>();
             Purchased = new List<Ticket>();
+        }
+        public User(string name, string password)
+        {
+            Name = name;
+            Password = password;
+            Watchlist = new List<Ticket>();
+            Purchased = new List<Ticket>();
+        }
+        public bool VerifyPassword(string password)
+        {
+            return this.Password == password;
         }
     }
 }
